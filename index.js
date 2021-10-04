@@ -19,20 +19,13 @@ bot.on("message", async (ctx) => {
   const response = await axios.get(
     `https://api.lyrics.ovh/v1/${splittedUserQuery[0]}/${splittedUserQuery[1]}`
   );
+   try {
+    const { lyrics } = response.data;
+    ctx.reply(lyrics);
+  } catch (error) {
+    
+     throw error;
+  }
 
-  let lyrics = response.data.lyrics;
-
-  ctx.reply(lyrics);
-
-  //   const lyricsObject = response.data;
-  //TODO Unhandle those unsuccessful promises
-  //   for (let i in lyricsObject) {
-  //     if (i === "lyrics") {
-  //       ctx.reply(lyricsObject.lyrics);
-  //     } else {
-  //       ctx.reply("No lyrics found");
-  //     }
-  //   }
-});
 
 bot.launch();
