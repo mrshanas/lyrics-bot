@@ -16,10 +16,11 @@ bot.on("message", async (ctx) => {
   const userQuery = ctx.message.text;
 
   const splittedUserQuery = userQuery.split("-");
-  const response = await axios.get(
+
+   try {
+       const response = await axios.get(
     `https://api.lyrics.ovh/v1/${splittedUserQuery[0]}/${splittedUserQuery[1]}`
   );
-   try {
     const { lyrics } = response.data;
     ctx.reply(lyrics);
   } catch (error) {
