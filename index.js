@@ -15,18 +15,23 @@ bot.start((ctx) => {
 bot.on("message", async (ctx) => {
   const userQuery = ctx.message.text;
 
-  const splittedUserQuery = userQuery.split("-");
+  const [artist,songName] = userQuery.split("-");
 
    try {
        const response = await axios.get(
-    `https://api.lyrics.ovh/v1/${splittedUserQuery[0]}/${splittedUserQuery[1]}`
+    `https://api.lyrics.ovh/v1/${artist}/${songName}`
   );
     const { lyrics } = response.data;
-    ctx.reply(lyrics);
+    const formattedLyrics = lyrics
+    .replace("Paroles de la chanson","")
+    .replace("par","");
+
+    ctx.reply(formattedLyrics);
   } catch (error) {
-    
-     throw error;
+    // console.log(error);
+    ctx.reply("Failed");
+    //  throw error;
   }
 
-
+})
 bot.launch();
